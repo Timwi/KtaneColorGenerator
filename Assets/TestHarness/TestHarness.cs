@@ -151,8 +151,9 @@ public class FakeBombInfo : MonoBehaviour
 
     void Awake()
     {
-        widgets = new Widget[5];
-        for (int a = 0; a < 5; a++)
+        const int numWidgets = 10;
+        widgets = new Widget[numWidgets];
+        for (int a = 0; a < numWidgets; a++)
         {
             int r = Random.Range(0, 3);
             if (r == 0) widgets[a] = new PortWidget();
@@ -179,7 +180,7 @@ public class FakeBombInfo : MonoBehaviour
         Debug.Log("Serial: " + serial);
     }
 
-    float startupTime = 3f;
+    float startupTime = .5f;
 
     public delegate void LightsOn();
     public LightsOn ActivateLights;
@@ -626,6 +627,7 @@ public class TestHarness : MonoBehaviour
         foreach (KMSelectable selectable in selectables)
         {
             TestSelectable testSelectable = selectable.gameObject.GetComponent<TestSelectable>();
+			testSelectable.Parent = selectable.Parent ? selectable.Parent.GetComponent<TestSelectable>() : null;
             testSelectable.Children = new TestSelectable[selectable.Children.Length];
             for (int i = 0; i < selectable.Children.Length; i++)
             {
